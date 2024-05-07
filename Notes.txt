@@ -1,0 +1,47 @@
+1] Create a Yolo-Weights Folder where U will execute a code and export pytorch(.pt) files into
+    openvino format so as to get openvino model folders for specific yolo package
+
+2] Created Yolo-webCam folder to connect our Yolo models to our webcam
+   But the problem is that for all this cvzone or cv2 is using CPU for processing
+   (If we directly use .pt files)
+   so now we gotta run this with GPU thats we previously exported in openvino format
+   (As openvino supports intel GPUs)
+
+3] Now we create car counter project in a separate folder
+   Till now our whole video was being scanned by YOLO but we dont want that
+   We just want it to scan a specific part of the road to detect cars
+   So we paste our video on canva to create a mask for the video
+
+4] Now we gotta import this mask.png in our project file
+   and we overlay this mask on our img (vid) and pass this image as a result to our Yolo model
+   So now our YOLO detects cars only ina a specific part
+
+5] Now the YOLO is only detecting the cars but not tracking them
+    Which means that it detects each car in each frame separately
+    So we use a tracker named SORT designed by abewley
+
+6] To use this we create a line on our img with cv2 then also create a dot on each identified OBj
+   So when these dots pass through this line they are counted
+
+********** SORT THEORY ***********
+
+max_age
+This parameter determines how long a track can remain alive without receiving new detections.
+Tracks that do not receive detections for more than max_age frames are considered inactive and are removed from the tracking process.
+Increasing max_age allows tracks to persist longer without updates, which can be helpful in scenarios where objects may momentarily disappear from the scene and then reappear.
+
+min_hits:
+This parameter specifies the minimum number of hits required to establish a track for an object.
+When an object is first detected, it needs to receive detections in consecutive frames at least min_hits times to be considered a valid track.
+Setting a higher value for min_hits can help filter out false positives and ensure that only reliably detected objects are tracked.
+
+IoU Threshold (Intersection over Union Threshold):
+Imagine two boxes: one representing a detection from YOLO, and the other representing a track maintained by the SORT tracker.
+IoU measures how much these two boxes overlap. It's the ratio of the area of overlap between the boxes to the area of union.
+The IoU threshold determines how much overlap is required for the tracker to associate a detection with an existing track.
+If the IoU between a detection and a track exceeds the threshold, the tracker considers them as the same object.
+A lower IoU threshold means even slight overlap is enough for association, potentially leading to more matches but also more false positives.
+A higher IoU threshold requires more significant overlap, reducing false associations but potentially missing some valid matches.
+Raising the iou_threshold requires a stricter overlap between detections and tracks, reducing the likelihood of false associations but potentially leading to more missed detections.
+
+In summary, max_age controls the lifespan of tracks, min_hits determines the reliability of detections required to establish a track, and iou_threshold governs the association between detections and existing tracks based on their spatial overlap. Adjusting these parameters allows for fine-tuning the performance of the tracker based on specific tracking requirements and characteristics of the input data.
