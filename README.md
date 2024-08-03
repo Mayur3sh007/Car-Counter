@@ -79,7 +79,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [YOLOv8](https://github.com/ultralytics/yolov8)
 - [OpenCV](https://opencv.org/)
 - [NumPy](https://numpy.org/)
-
----
-
-Feel free to customize this README to better fit your specific project details and preferences.
