@@ -1,7 +1,3 @@
-Here's a sample README file for your YOLOv8 Car Counter project:
-
----
-
 # YOLOv8 Car Counter
 
 YOLOv8 Car Counter is a powerful and optimized solution for counting cars in video streams or images using the YOLOv8 object detection model. This project focuses on enhancing performance by utilizing a tracer instead of capturing cars in every frame and applying masking to focus on the relevant area.
